@@ -1,15 +1,16 @@
 import streamlit as st
 from modules.file_operations_S3 import check_file_exists
 from modules.file_operations_S3 import upload_file
-from modules.query_file import query_file 
+from modules.query_file import query_file
+from modules.query_P1c01_23 import prepare_for_P1c01_23
 from modules.send_confirm_email import send_confirmation_email
 from modules.validate_code import validate_code
 
 def main():
-    job_position = 'teacher'
-    department = 'school' 
-    platovy_stupen = '14'
-    platova_trida = '14'
+    job = 'director'
+    department = 'operation' 
+    stupen = 8
+    trida = 5
     bucket_name = "schoolworkhours"
     entered_code = None
     query_result = None
@@ -23,7 +24,7 @@ def main():
     # Generate the file name
     file_name = f"{school_name}_{city}_workhours.csv"
 
-    if not check_file_exists("", file_name):
+    if not check_file_exists(bucket_name, file_name):
         # File does not exist, prompt for file upload
         st.write("File does not exist. Please upload the file.")
         # Create a file uploader
@@ -71,7 +72,7 @@ def main():
 
             # Perform file querying
             if st.button("Query Files"):
-                def P1c01_23(bucket_name, file_name, job_position, department, platovy_stupen, platova_trida, show_result=True)
+                prepare_for_P1c01_23(bucket_name, file_name, job, department, stupen, trida, show_result=True)
                 if not validate_code (entered_code, school_name):
                     st.warning("Invalid code. Please try again.")
 
