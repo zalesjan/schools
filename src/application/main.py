@@ -1,11 +1,13 @@
 import streamlit as st
 from modules.file_operations_S3 import check_file_exists
 from modules.file_operations_S3 import upload_file
-from modules.query_file import query_file 
+from modules.query_file import query_file
+from modules.query_file import show_certain_columns
 from modules.send_confirm_email import send_confirmation_email
 from modules.validate_code import validate_code
 
 def main():
+    bucket_name = "schoolworkhours"
     entered_code = None
     query_result = None
     email_sent = False  # Initialize email_sent variable
@@ -18,7 +20,7 @@ def main():
     # Generate the file name
     file_name = f"{school_name}_{city}_workhours.csv"
 
-    if not check_file_exists("schoolworkhours", file_name):
+    if not check_file_exists(bucket_name, file_name):
         # File does not exist, prompt for file upload
         st.write("File does not exist. Please upload the file.")
         # Create a file uploader
@@ -26,17 +28,17 @@ def main():
         if uploaded_file is not None:
             if st.button("Upload"):
                 # Upload the file to S3
-                upload_file(uploaded_file, "schoolworkhours", file_name)
+                upload_file(uploaded_file, bucket_name, file_name)
                 st.success("File uploaded successfully!")
             
     # Check if the file exists in S3
-    if check_file_exists("schoolworkhours", file_name):
+    if check_file_exists(bucket_name, file_name):
         # File exists, prompt for personal information
         st.warning("File found in the storage. Give your name and First Name")
         # Prompt for personal information
         name = st.text_input("Name:")
         first_name = st.text_input("First Name:")
-        query_result = query_file("schoolworkhours", file_name, name, first_name)
+        query_result = query_file(bucket_name, file_name, name, first_name)
 
         #If file was already uploaded
         #if query_result is not None:
@@ -66,7 +68,7 @@ def main():
 
             # Perform file querying
             if st.button("Query Files"):
-                query_file("schoolworkhours", file_name, name, first_name, show_result=True)
+                show_certain_columns(bucket_name, file_name, name, first_name, show_result=True)
                 if not validate_code (entered_code, school_name):
                     st.warning("Invalid code. Please try again.")
 
