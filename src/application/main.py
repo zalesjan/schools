@@ -6,6 +6,10 @@ from modules.send_confirm_email import send_confirmation_email
 from modules.validate_code import validate_code
 
 def main():
+    job_position = 'teacher'
+    department = 'school' 
+    platovy_stupen = '14'
+    platova_trida = '14'
     bucket_name = "schoolworkhours"
     entered_code = None
     query_result = None
