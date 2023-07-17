@@ -2,7 +2,7 @@ import streamlit as st
 from modules.file_operations_S3 import check_file_exists
 from modules.file_operations_S3 import upload_file
 from modules.query_file import query_file
-from modules.query_P1c01_23 import prepare_for_P1c01_23
+from modules.query_form_P1c1_2023 import P1c01_23_count_people_by_department_stupen_trida
 from modules.send_confirm_email import send_confirmation_email
 from modules.validate_code import validate_code
 
@@ -72,7 +72,7 @@ def main():
 
             # Perform file querying
             if st.button("Query Files"):
-                prepare_for_P1c01_23(bucket_name, file_name, job, department, stupen, trida, show_result=True)
+                P1c01_23_count_people_by_department_stupen_trida(bucket_name, file_name, department, show_result=True)
                 if not validate_code (entered_code, school_name):
                     st.warning("Invalid code. Please try again.")
 
