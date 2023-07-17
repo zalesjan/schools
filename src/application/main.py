@@ -79,11 +79,7 @@ def main():
 
             # Perform file querying
             if st.button("Query Files"):
-<<<<<<< HEAD
                 P1c01_23_count_people_by_department_stupen_trida(bucket_name, file_name, department, show_result=True)
-=======
-                show_certain_columns(bucket_name, file_name, name, first_name, show_result=True)
->>>>>>> master
                 if not validate_code (entered_code, school_name):
                     st.warning("Invalid code. Please try again.")
 
