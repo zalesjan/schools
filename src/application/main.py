@@ -2,22 +2,12 @@ import streamlit as st
 from modules.file_operations_S3 import check_file_exists
 from modules.file_operations_S3 import upload_file
 from modules.query_file import query_file
-<<<<<<< HEAD
 from modules.query_form_P1c1_2023 import P1c01_23_count_people_by_department_stupen_trida
-=======
-from modules.query_file import show_certain_columns
->>>>>>> master
 from modules.send_confirm_email import send_confirmation_email
 from modules.validate_code import validate_code
 
 def main():
-<<<<<<< HEAD
-    job = 'director'
-    department = 'operation' 
-    stupen = 8
-    trida = 5
-=======
->>>>>>> master
+    department = 'operation'
     bucket_name = "schoolworkhours"
     entered_code = None
     query_result = None
@@ -51,8 +41,6 @@ def main():
         first_name = st.text_input("First Name:")
         query_result = query_file(bucket_name, file_name, name, first_name)
 
-        #If file was already uploaded
-        #if query_result is not None:
         # Get the email from the query result
         if not query_result.empty:
             email = query_result["Email"].values[0]
@@ -65,9 +53,8 @@ def main():
         code = f"{school_name}_{random.randint(10, 99)}"
 
         # Send the confirmation email with the code
-        if not email_sent:
+        if st.button("Send me confirmation email"):
             send_confirmation_email(email, code)
-            email_sent = True
 
         # Prompt for the code
         entered_code = st.text_input("Enter the code:")
