@@ -15,8 +15,8 @@ def main():
     st.write("Prosím zadejte jméno školy a město/Please enter the school name and city.")
 
     # Get user input for school name and city
-    school_name = st.text_input("School Name:")
-    city = st.text_input("City:")
+    school_name = st.text_input("Jméno školy/School Name:")
+    city = st.text_input("Město/City:")
     # Generate the file name
     file_name = f"{school_name}_{city}_workhours.csv"
 
