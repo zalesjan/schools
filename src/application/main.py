@@ -40,7 +40,7 @@ def main():
         first_name = st.text_input("First Name:")
         query_result = query_file(bucket_name, file_name, name, first_name)
 
-        # Get the email from the query result
+        # Extract the email adress from the query result
         if not query_result.empty:
             email = query_result["Email"].values[0]
         else:
