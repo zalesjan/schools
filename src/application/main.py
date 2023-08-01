@@ -11,7 +11,6 @@ def main():
     bucket_name = "schoolworkhours"
     entered_code = None
     query_result = None
-    #email_sent = False  # Initialize email_sent variable
     st.title("CSV File Uploader to S3 Bucket")
     st.write("Please enter the school name and city.")
 
