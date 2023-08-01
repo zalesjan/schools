@@ -1,7 +1,6 @@
 import streamlit as st
-from modules.file_operations_S3 import check_file_exists
-from modules.file_operations_S3 import upload_file
-from modules.query_file import query_file
+from modules.file_operations_S3 import check_file_exists, upload_file
+from modules.query_file import query_file, show_certain_columns
 from modules.query_form_P1c1_2023 import P1c01_23_count_people_by_department_stupen_trida
 from modules.send_confirm_email import send_confirmation_email
 from modules.validate_code import validate_code
@@ -22,27 +21,28 @@ def main():
 
     if not check_file_exists(bucket_name, file_name):
         # File does not exist, prompt for file upload
-        st.write("Seznam PAM neexistuje/File does not exist. Please upload the file.")
+        st.write("Seznam PAM je třeba nahrát. / School not found. Please upload.")
         # Create a file uploader
-        uploaded_file = st.file_uploader("Nahrej seznam pam/Upload a CSV file", type="csv")
+        uploaded_file = st.file_uploader("Nahrej seznam PAM. / Upload a CSV file", type="csv")
         if uploaded_file is not None:
             if st.button("Nahrej/Upload"):
                 # Upload the file to S3
                 upload_file(uploaded_file, bucket_name, file_name)
-                st.success("Nahrávání poroběhlo úspěšně/File uploaded successfully!")
+                st.success("Nahrávání poroběhlo úspěšně! / File uploaded successfully!")
             
     # Check if the file exists in S3
     if check_file_exists(bucket_name, file_name):
         # File exists, prompt for personal information
-        st.warning("File found in the storage. Give your name and First Name")
+        st.warning("Soubor nalezen. Zajete své jméno. / File found. Give your name.")
         # Prompt for personal information
-        name = st.text_input("Name:")
-        first_name = st.text_input("First Name:")
+        name = st.text_input("Příjmení: / Name:")
+        first_name = st.text_input("Jméno: / First Name:")
         query_result = query_file(bucket_name, file_name, name, first_name)
 
-        # Extract the email adress from the query result
+        # Extract the email adress and job from the query result
         if not query_result.empty:
             email = query_result["Email"].values[0]
+            job = query_result["job"].values[0]
         else:
             st.warning("No matching records found.")
             return  # Exit the function if no matching records are found
@@ -52,22 +52,33 @@ def main():
         code = f"{school_name}_{random.randint(10, 99)}"
 
         # Send the confirmation email with the code
-        if st.button("Send me confirmation email"):
+        if st.button("Pošli potvrzovací mail. / Send me confirmation email"):
             send_confirmation_email(email, code)
 
         # Prompt for the code
-        entered_code = st.text_input("Enter the code:")
+        entered_code = st.text_input("Zadej kód z mailu. / Enter the code:")
 
         # Validate the code
         #if entered_code is not None:
         if validate_code(entered_code, school_name):
             st.success("Code validated! You can now query the files.")
 
-            # Perform file querying
-            if st.button("Vypocitej P1c01_23"):
-                P1c01_23_count_people_by_department_stupen_trida(bucket_name, file_name, department, show_result=True)
-                if not validate_code (entered_code, school_name):
-                    st.warning("Invalid code. Please try again.")
+            # Check if the job is equal to "director"
+            if job.lower() != "director":
+                if st.button("Ukaž moje podrobnosti. / Show my data."):
+                    show_certain_columns(bucket_name, file_name, name, first_name, show_result=True)
+
+            else:
+                # Perform file querying for the director
+                if st.button("Vypocitej P1c01_23"):
+                    P1c01_23_count_people_by_department_stupen_trida(bucket_name, file_name, department, show_result=True)
+                if st.button("Vyhledej cloveka"):
+                    looked_name = st.text_input("Příjmení: / Name:")
+                    looked_first_name = st.text_input("Jméno: / First Name:")
+                    query_result = query_file(bucket_name, file_name, department, show_result=True)    
+
+                    if not validate_code (entered_code, school_name):
+                        st.warning("Invalid code. Please try again.")
 
 
 if __name__ == '__main__':
