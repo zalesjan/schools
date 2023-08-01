@@ -11,8 +11,8 @@ def main():
     bucket_name = "schoolworkhours"
     entered_code = None
     query_result = None
-    st.title("CSV File Uploader to S3 Bucket")
-    st.write("Please enter the school name and city.")
+    st.title("PAM")
+    st.write("Prosím zadejte jméno školy a město/Please enter the school name and city.")
 
     # Get user input for school name and city
     school_name = st.text_input("School Name:")
