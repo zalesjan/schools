@@ -11,7 +11,7 @@ def main():
     bucket_name = "schoolworkhours"
     entered_code = None
     query_result = None
-    email_sent = False  # Initialize email_sent variable
+    #email_sent = False  # Initialize email_sent variable
     st.title("CSV File Uploader to S3 Bucket")
     st.write("Please enter the school name and city.")
 
@@ -65,7 +65,7 @@ def main():
             st.success("Code validated! You can now query the files.")
 
             # Perform file querying
-            if st.button("Query Files"):
+            if st.button("Vypocitej P1c01_23"):
                 P1c01_23_count_people_by_department_stupen_trida(bucket_name, file_name, department, show_result=True)
                 if not validate_code (entered_code, school_name):
                     st.warning("Invalid code. Please try again.")
