@@ -22,14 +22,14 @@ def main():
 
     if not check_file_exists(bucket_name, file_name):
         # File does not exist, prompt for file upload
-        st.write("File does not exist. Please upload the file.")
+        st.write("Seznam PAM neexistuje/File does not exist. Please upload the file.")
         # Create a file uploader
-        uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
+        uploaded_file = st.file_uploader("Nahrej seznam pam/Upload a CSV file", type="csv")
         if uploaded_file is not None:
-            if st.button("Upload"):
+            if st.button("Nahrej/Upload"):
                 # Upload the file to S3
                 upload_file(uploaded_file, bucket_name, file_name)
-                st.success("File uploaded successfully!")
+                st.success("Nahrávání poroběhlo úspěšně/File uploaded successfully!")
             
     # Check if the file exists in S3
     if check_file_exists(bucket_name, file_name):
