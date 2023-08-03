@@ -1,5 +1,11 @@
 def validate_code(sent_code, entered_code):
 
+    if sent_code.lower() == entered_code.lower():
+        return True
+    else:
+        return False
+
+def old_validate_code(sent_code, entered_code):
     # Split the sent enteredcode into components
     sent_code_components = sent_code.split("_")
 
@@ -26,11 +32,6 @@ def validate_code(sent_code, entered_code):
     else:
         return False
     
-
-
-
-
-
 
 def split_names(name_and_surname):
     # Split the code into components
