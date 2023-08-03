@@ -30,6 +30,3 @@ def send_confirmation_email(email, code):
 
     st.warning("Confirmation email sent.")
     
-    # Set email_sent flag to True if email is successfully sent
-    email_sent = True
-    return email_sent
