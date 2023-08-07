@@ -37,10 +37,6 @@ def split_names(name_and_surname):
     # Split the code into components
     name_components = name_and_surname.split("_")
 
-    # Check if the code has the expected number of components
-    #if len(name_components) != 2:
-        # return False
-
     # Extract the code components
     looked_name, looked_first_name = name_components
 
