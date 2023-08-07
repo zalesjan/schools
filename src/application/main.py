@@ -70,7 +70,7 @@ def main():
             if job.lower() != "director":
                 # Let non/priviledged user query himself
                 if st.button("Ukaž moje podrobnosti. / Show my data."):
-                    show_certain_columns(bucket_name, file_name, name, first_name, show_result=True)
+                    query_someone(bucket_name, file_name, name, first_name, show_result=True)
                 
             # Perform file querying for the director
             else:
