@@ -3,7 +3,7 @@ from modules.file_operations_S3 import check_file_exists, upload_file
 from modules.query_file import query_file, show_certain_columns, query_someone
 from modules.query_form_P1c1_2023 import P1c01_23_count_people_by_department_stupen_trida
 from modules.send_confirm_email import send_confirmation_email
-from modules.validate_code import validate_code, split_names
+from modules.validate_code import validate_code, split_names, old_validate_code
 
 def main():
     sent_code = None
@@ -39,6 +39,7 @@ def main():
         name = st.text_input("Příjmení: / Name:")
         first_name = st.text_input("Jméno: / First Name:")
         query_result = query_file(bucket_name, file_name, name, first_name)
+        name_and_surname = st.text_input("Jméno a příjmení hledané osoby: / Name and surname of looked person:")
 
         # Extract the email adress and job from the query result
         if not query_result.empty:
@@ -57,15 +58,11 @@ def main():
             send_confirmation_email(email, sent_code)
 
         # Prompt for the code
-        entered_code = st.text_input("Zadej kód z mailu. / Enter the code:")
-
-        # Display the values of sent_code and entered_code
-        st.write("sent_code:", sent_code)
-        st.write("entered_code:", entered_code)
+        entered_code = st.text_input("Zadej kód z mailu. / Enter the code:")    
 
         # Validate the code
         #if entered_code is not None:
-        if validate_code(sent_code, entered_code):
+        if old_validate_code(sent_code, entered_code):
             st.success("Code validated! You can now query the files.")
 
             # Check if the job is equal to "director"
@@ -82,19 +79,23 @@ def main():
 
                 # Let director query all employees
                 if st.button("Hledat cloveka. / Find employee."):
-                    # Let director insert name of employees.
-                    name_and_surname = st.text_input("Hledane Příjmení: / Name:")
 
                     # Split the name and first name
-                    split_names(name_and_surname)
+                    # split_names(name_and_surname, looked_name, looked_first_name)
+                       # Split the code into components
+                    name_components = name_and_surname.split("_")
+                    st.write("name_components:", name_components)
+                    # Extract the code components
+                    looked_first_name, looked_name = name_components
+                    
+                    # Display the values of looked_first_name
+                    st.write("looked_name:", looked_name)
+                    st.write("looked_first_name:", looked_first_name)
 
-                    # Search the person in the file
-                    #first_name = st.text_input("Hledane Jméno: / First Name:")
-                    if st.button("Vyhledej cloveka"):
-                        query_someone(bucket_name, file_name, looked_name, looked_first_name, show_result=True)    
+                    query_someone(bucket_name, file_name, looked_name, looked_first_name, show_result=True)    
 
-                    if not validate_code (sent_code, entered_code):
-                        st.warning("Invalid code. Please try again.")
+                if not old_validate_code (sent_code, entered_code):
+                    st.warning("Invalid code. Please try again.")
         else:
             st.warning("Invalid code. Please try again.")
 
