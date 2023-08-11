@@ -1,9 +1,10 @@
 import streamlit as st
 from modules.file_operations_S3 import check_file_exists, upload_file
-from modules.query_file import query_file, query_someone
+from modules.query_file import query_file, query_someone, display_timetable
 from modules.query_form_P1c1_2023 import P1c01_23_count_people_by_department_stupen_trida
 from modules.send_confirm_email import send_confirmation_email
 from modules.validate_code import split_names, old_validate_code
+#from modules.timetable import display_timetable, format_activity_option
 
 def main():
     department = 'operation'
@@ -33,20 +34,24 @@ def main():
             
     # Check if the file exists in S3
     if check_file_exists(bucket_name, file_name):
-        # File exists, prompt for personal information
+        # File exists, prompt and look for 'my' personal information
         st.warning("Soubor nalezen. Zajete své jméno. / File found. Give your name.")
-        # Prompt for personal information
         name = st.text_input("Příjmení: / Name:")
         first_name = st.text_input("Jméno: / First Name:")
         query_result = query_file(bucket_name, file_name, name, first_name)
         
+        # Prompt for 'employees' personal information
         name_and_surname = st.text_input("Jméno a příjmení hledané osoby: / Name and surname of looked person:")
         looked_name, looked_first_name = split_names(name_and_surname)
+        employee_query_result = query_someone(bucket_name, file_name, looked_name, looked_first_name, show_result=False)
+        prima = employee_query_result["direct hours"].values[0]
+        celkem_hodin = employee_query_result["hours"].values[0]
         
         # Extract the email adress and job from the query result
         if not query_result.empty:
             email = query_result["Email"].values[0]
             job = query_result["job"].values[0]
+
         else:
             st.warning("No matching records found.")
             return  # Exit the function if no matching records are found
@@ -68,7 +73,7 @@ def main():
 
             # Check if the job is equal to "director"
             if job.lower() != "director":
-                # Let non/priviledged user query himself
+                # Let non-priviledged user query himself
                 if st.button("Ukaž moje podrobnosti. / Show my data."):
                     query_someone(bucket_name, file_name, name, first_name, show_result=True)
                 
@@ -82,8 +87,18 @@ def main():
                 if st.button("Hledat cloveka. / Find employee."):
                     query_someone(bucket_name, file_name, looked_name, looked_first_name, show_result=True)    
 
+                # Display timetable for the queried person
+                if st.button("Zobrazit rozvrh. / Show Timetable"):
+                    #st.write(f"Direct Hours (Prima): {prima}")
+                    #st.write(f"Total Hours (Celkem Hodin): {celkem_hodin}")
+                    # Initialize available_counts dictionary
+                    available_counts = {"Učím": prima, "Nepřímá": celkem_hodin - prima, "Z domu": 20, "Dozor": 20, "Oběd": 20}
+
+                    # Call a function to display the timetable
+                    display_timetable(looked_first_name, looked_name, available_counts)
+
                 if not old_validate_code (sent_code, entered_code):
-                    st.warning("Invalid code. Please try again.")
+                    st.warning("Code not valid or inserted yet.")
         else:
             st.warning("Invalid code. Please try again.")
 
