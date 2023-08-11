@@ -4,7 +4,7 @@ from modules.query_file import query_file, query_someone, display_timetable
 from modules.query_form_P1c1_2023 import P1c01_23_count_people_by_department_stupen_trida
 from modules.send_confirm_email import send_confirmation_email
 from modules.validate_code import split_names, old_validate_code
-#from modules.timetable import display_timetable, format_activity_option
+#from modules.timetable_buttons import display_timetable, format_activity_option
 
 def main():
     department = 'operation'
