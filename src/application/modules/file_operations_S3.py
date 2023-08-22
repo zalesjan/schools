@@ -2,10 +2,10 @@ import streamlit as st
 import boto3
 import botocore.exceptions
 
-aws_access_key_id = st.secrets["aws_access_key_id"]
-aws_secret_access_key = st.secrets["aws_secret_access_key"]
+AWS_access_key_id = st.secrets["aws_access_key_id"]
+AWS_secret_access_key = st.secrets["aws_secret_access_key"]
 
-s3 = boto3.client("s3", aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
+s3 = boto3.client("s3", aws_access_key_id=AWS_access_key_id, aws_secret_access_key=AWS_secret_access_key)
 
 def check_file_exists(bucket_name, file_name):
     try:
