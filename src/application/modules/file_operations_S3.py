@@ -2,8 +2,8 @@ import streamlit as st
 import boto3
 import botocore.exceptions
 
-AWS_access_key_id = st.secrets["aws_access_key_id"]
-AWS_secret_access_key = st.secrets["aws_secret_access_key"]
+AWS_access_key_id = st.secrets["AWS_ACCESS_KEY_ID"]
+AWS_secret_access_key = st.secrets["AWS_SECRET_ACCESS_KEY"]
 
 s3 = boto3.client("s3", aws_access_key_id=AWS_access_key_id, aws_secret_access_key=AWS_secret_access_key)
 
