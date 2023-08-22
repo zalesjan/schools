@@ -2,6 +2,8 @@ import streamlit as st
 import boto3
 import botocore.exceptions
 
+# WORKING   
+# AWS credentials for Streamlit cloud app from st.secrets"
 AWS_access_key_id = st.secrets["AWS_ACCESS_KEY_ID"]
 AWS_secret_access_key = st.secrets["AWS_SECRET_ACCESS_KEY"]
 
