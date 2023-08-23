@@ -1,4 +1,5 @@
 import streamlit as st
+import subprocess
 from modules.file_operations_S3 import check_file_exists, upload_file
 from modules.query_file import query_file, query_someone, display_timetable
 from modules.query_form_P1c1_2023 import P1c01_23_count_people_by_department_stupen_trida
@@ -97,6 +98,16 @@ def main():
                     # Call a function to display the timetable
                     display_timetable(looked_first_name, looked_name, available_counts)
 
+                if st.button("separe Zobrazit rozvrh. / Show Timetable"):
+                    available_counts = {"Učím": prima, "Nepřímá": celkem_hodin - prima, "Z domu": 20, "Dozor": 20, "Oběd": 20}
+
+                    # Clear the current content on the page
+                    st.empty()
+
+                    # Display the timetable in a new page
+                    st.write("timetable")
+                    display_timetable(looked_first_name, looked_name, available_counts)
+
                 if not old_validate_code (sent_code, entered_code):
                     st.warning("Code not valid or inserted yet.")
         else:
@@ -104,3 +115,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    # Open the timetable app in a new tab or window
+    if st.button("Zobrazit rozvrh v novem tabu. / Show Timetable"):
+        subprocess.run(["streamlit", "run", "timetable_app.py"])
