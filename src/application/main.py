@@ -118,4 +118,4 @@ if __name__ == '__main__':
 
     # Open the timetable app in a new tab or window
     if st.button("Zobrazit rozvrh v novem tabu. / Show Timetable"):
-        subprocess.run(["streamlit", "run", "timetable_app.py"])
+        subprocess.run(["streamlit", "run", "src/application/timetable_app.py"])
