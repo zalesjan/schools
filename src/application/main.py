@@ -98,7 +98,7 @@ def main():
                     # Call a function to display the timetable
                     display_timetable(looked_first_name, looked_name, available_counts)
 
-                if st.button("separe Zobrazit rozvrh. / Show Timetable"):
+                """if st.button("separe Zobrazit rozvrh. / Show Timetable"):
                     available_counts = {"Učím": prima, "Nepřímá": celkem_hodin - prima, "Z domu": 20, "Dozor": 20, "Oběd": 20}
 
                     # Clear the current content on the page
@@ -106,7 +106,7 @@ def main():
 
                     # Display the timetable in a new page
                     st.write("timetable")
-                    display_timetable(looked_first_name, looked_name, available_counts)
+                    display_timetable(looked_first_name, looked_name, available_counts)"""
 
                 if not old_validate_code (sent_code, entered_code):
                     st.warning("Code not valid or inserted yet.")
