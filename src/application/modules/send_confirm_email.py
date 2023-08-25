@@ -33,7 +33,6 @@ def send_confirmation_email(email, code):
 
     st.warning("Confirmation email sent.")
     
-
 def send_instructions_email(bucket_name, file_name):
     # Read CSV data
     df = pd.read_csv(f"s3://{bucket_name}/{file_name}")
@@ -47,38 +46,38 @@ def send_instructions_email(bucket_name, file_name):
         celkem_hodin = row["hours"]
         job = row["job"]
         dept = row["department"]
-        employee_email = row["Email"]
 
-    # Compose the email message
-    subject = " TEST Informační Email"
-    body = f"Thank you"
-    sender_email = st.secrets["sender_email"]
-    recipient_email = employee_email
+        # Email configuration
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+        smtp_username = st.secrets["sender_email"]
+        smtp_password = st.secrets["smtp_password"]
 
-    # Email configuration
-    smtp_server = "smtp.gmail.com"
-    smtp_port = 587
-    smtp_username = sender_email
-    smtp_password = st.secrets["smtp_password"]
+        # Compose the email message
+        subject = "TEST Informační Email"
+        body = f"Vážený zaměstnanče,\n\n Zde jsou důležité informace k vašemu úvazku. \n\n"
+        # Add relevant details from the row
+        body += f"Jméno: {employee_firstname}\n"
+        body += f"Příjmení: {employee_name}\n"
+        body += f"Pozice: {job}\n"
+        body += f"Sekce/oddělení: {dept}\n"
+        body += f"Úvazek celkem: {celkem_hodin}\n"
+        body += f"Přímá ped. činnost: {prima}\n"
+        body += f"Nepřímá: {celkem_hodin} - {prima}\n\n"
+        body += f"Evidenci pracovní doby vyplňte za použití nástroje na tomto odkazu prosím,\n\n https://schools-evydcdn7dfd3z483bpeekb.streamlit.app/ \n\n"
 
-    # Construct email message
-    message = MIMEMultipart()
-    message["Subject"] = subject
-    message["From"] = sender_email
-    message["To"] = recipient_email
+        # Construct email message
+        message = MIMEMultipart()
+        message["Subject"] = subject
+        message["From"] = smtp_username
+        message["To"] = employee_email
 
-    # Add email body
-    body += f"Hello {employee_name},\n\nHere is your employee information:\n\n"
-    # Add relevant details from the row
-    body += f"{employee_name}\n"
-    # Add other details
+        message.attach(MIMEText(body, "plain"))
 
-    message.attach(MIMEText(body, "plain"))
+        # Send email
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_username, smtp_password)
+            server.sendmail(smtp_username, employee_email, message.as_string())
 
-    # Send email
-    with smtplib.SMTP(smtp_server, smtp_port) as server:
-        server.starttls()
-        server.login(smtp_username, smtp_password)
-        server.sendmail(smtp_username, employee_email, message.as_string())
-
-    st.warning(f"Email sent to {employee_name} at {employee_email}")
+        st.warning(f"Email sent to {employee_firstname} at {employee_email}")
