@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+from modules.send_confirm_email import send_report_email
 
 def query_file(bucket_name, file_name, name, first_name, show_result=False):
     # Query the file
@@ -68,8 +69,17 @@ def display_timetable(looked_name, looked_first_name, available_counts):
     # Create a dictionary to store activity counts
     activity_counts = {activity: 0 for activity in activities_list}
 
-    # Display the time table using Streamlit
-    st.title(f"Rozvrh {looked_first_name} {looked_name} ")
+    # Display the time table using Streamlit st.title(f"Rozvrh {looked_first_name} {looked_name} ")
+    st.title(f"Zvol pro každý den a každou hodinu, jesli máš přímou (=učíš), nebo nepřímou prac. dobu nebo pracuješ z domu.\n Zvol taky, kdy máš oběd a kdy dozor.")
+
+    # Info for users
+    st.title(f"POZOR: KONTROLUJ SOUČTY AKTIVIT DOLE\n MUSÍ ODPOVÍDAT TOMU, KOLIK MÁŠ PŘÍMÉ NEBO NEPŘÍMÉ PRACOVNÍ DOBY")
+    
+    #Employee inputs their name
+    employee_name = st.text_input("Sem zadej své příjmení:")
+
+    if st.button("KLIKNI SEM PRO ULOŽENÍ ROZVRHU A JEHO ODESLÁNÍ EKONOMCE"): 
+        send_report_email(st.secrets["ekonomka_email"], employee_name")
 
     # Create a grid to display the time table
     for day in days_of_week:
@@ -84,7 +94,7 @@ def display_timetable(looked_name, looked_first_name, available_counts):
     # Display the updated time table
     st.write("Aktualizovaný rozvrh")
     st.dataframe(time_table_data)
-
+    
     # Display the activity counts
     st.write("Počet aktivit")
     for activity, count in activity_counts.items():

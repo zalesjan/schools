@@ -3,7 +3,7 @@ import streamlit as st
 from modules.file_operations_S3 import check_file_exists, upload_file
 from modules.query_file import query_file, query_someone, display_timetable
 from modules.query_form_P1c1_2023 import P1c01_23_count_people_by_department_stupen_trida
-from modules.send_confirm_email import send_confirmation_email
+from modules.send_confirm_email import send_confirmation_email, send_instructions_email
 from modules.validate_code import split_names, old_validate_code
 #from modules.timetable_buttons import display_timetable, format_activity_option
 
@@ -86,7 +86,10 @@ def main():
 
                 # Let director query all employees
                 if st.button("Hledat cloveka. / Find employee."):
-                    query_someone(bucket_name, file_name, looked_name, looked_first_name, show_result=True)    
+                    query_someone(bucket_name, file_name, looked_name, looked_first_name, show_result=True)  
+
+                if st.button("Zaslat informacni email. / Send info."):
+                    send_instructions_email(bucket_name, file_name)
 
                 # Display timetable for the queried person
                 if st.button("Zobrazit rozvrh. / Show Timetable"):

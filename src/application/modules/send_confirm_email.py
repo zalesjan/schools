@@ -81,3 +81,31 @@ def send_instructions_email(bucket_name, file_name):
             server.sendmail(smtp_username, employee_email, message.as_string())
 
         st.warning(f"Email sent to {employee_firstname} at {employee_email}")
+
+def send_report_email(email, employee_name):
+    # Compose the email message
+    subject = "Evidence pracovní doby {employee_name}"
+    body = f"Thank you for using our service!\n\nYour verification code is: {code}\n\nPlease enter this code in the app to proceed with file querying."
+    sender_email = st.secrets["ekonomka_email"]
+    recipient_email = email
+
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = sender_email
+    msg["To"] = recipient_email
+    msg.set_content(body)
+
+    # Set up the SMTP connection
+    smtp_server = "smtp.gmail.com"
+    smtp_port = 587
+    smtp_username = st.secrets["ekonomka_email"]
+    smtp_password = st.secrets["smtp_password"]
+
+    with smtplib.SMTP(smtp_server, smtp_port) as server:
+        server.starttls()
+        server.login(smtp_username, smtp_password)
+
+        # Send the email
+        server.send_message(msg)
+
+    st.warning("Tvůj rozvrh byl odeslán ekonomce.\n Pokud se ekonomka neozve zpátky, je vše v pořádku;)")
