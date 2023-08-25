@@ -9,7 +9,7 @@ def send_confirmation_email(email, code):
     # Compose the email message
     subject = "Confirmation Email"
     body = f"Thank you for using our service!\n\nYour verification code is: {code}\n\nPlease enter this code in the app to proceed with file querying."
-    sender_email = "zalesjan@gmail.com"
+    sender_email = st.secrets["sender_email"]
     recipient_email = email
 
     msg = EmailMessage()
@@ -21,7 +21,7 @@ def send_confirmation_email(email, code):
     # Set up the SMTP connection
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
-    smtp_username = sender_email
+    smtp_username = st.secrets["sender_email"]
     smtp_password = st.secrets["smtp_password"]
 
     with smtplib.SMTP(smtp_server, smtp_port) as server:
@@ -52,7 +52,7 @@ def send_instructions_email(bucket_name, file_name):
     # Compose the email message
     subject = " TEST Informační Email"
     body = f"Thank you"
-    sender_email = "zalesjan@gmail.com"
+    sender_email = st.secrets["sender_email"]
     recipient_email = employee_email
 
     # Email configuration
