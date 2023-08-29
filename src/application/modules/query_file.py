@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from modules.send_confirm_email import send_report_email
+from modules.send_email import send_report_email
 
 def query_file(bucket_name, file_name, name, first_name, show_result=False):
     # Query the file
@@ -54,7 +54,7 @@ def show_certain_columns(bucket_name, file_name, name, first_name, show_result=F
     # Return the query result
     return query_result
 
-def display_timetable(looked_name, looked_first_name, available_counts):
+def display_timetable(available_counts):
 
     # Define days of the week and slots in Czech
     days_of_week = ['Pondělí / Monday', 'Úterý / Tuesday', 'Středa / Wednesday', 'Čtvrtek / Thursday', 'Pátek / Friday']
@@ -70,16 +70,13 @@ def display_timetable(looked_name, looked_first_name, available_counts):
     activity_counts = {activity: 0 for activity in activities_list}
 
     # Display the time table using Streamlit st.title(f"Rozvrh {looked_first_name} {looked_name} ")
-    st.title(f"Zvol pro každý den a každou hodinu, jesli máš přímou (=učíš), nebo nepřímou prac. dobu nebo pracuješ z domu.\n Zvol taky, kdy máš oběd a kdy dozor.")
+    st.title(f"Zvol pro každý den a hodinu svou přímou (=učíš), nebo nepřímou pracovní dobu nebo praci z domu.\n Zvol taky, kdy máš oběd a kdy dozor.")
 
     # Info for users
-    st.title(f"POZOR: KONTROLUJ SOUČTY AKTIVIT DOLE\n MUSÍ ODPOVÍDAT TOMU, KOLIK MÁŠ PŘÍMÉ NEBO NEPŘÍMÉ PRACOVNÍ DOBY")
+    st.title(f"POZOR: KONTROLUJ SOUČTY DOLE\n MUSÍ ODPOVÍDAT TOMU, KOLIK MÁŠ PŘÍMÉ NEBO NEPŘÍMÉ PRACOVNÍ DOBY")
     
     #Employee inputs their name
     employee_name = st.text_input("Sem zadej své příjmení:")
-
-    if st.button("KLIKNI SEM PRO ULOŽENÍ ROZVRHU A JEHO ODESLÁNÍ EKONOMCE"): 
-        send_report_email(st.secrets["ekonomka_email"], employee_name")
 
     # Create a grid to display the time table
     for day in days_of_week:
@@ -99,6 +96,9 @@ def display_timetable(looked_name, looked_first_name, available_counts):
     st.write("Počet aktivit")
     for activity, count in activity_counts.items():
         st.write(f"{activity}: {count}")
+
+    if st.button("KLIKNI SEM PRO ULOŽENÍ ROZVRHU A JEHO ODESLÁNÍ EKONOMCE"): 
+        send_report_email(st.secrets["ekonomka_email"], employee_name, time_table_data, activity_counts)
 
     if count > available_counts.get(activity, 0):
         st.warning(f"Cannot select {activity}. Maximum count reached.")
