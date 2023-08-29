@@ -9,10 +9,10 @@ def P1c01_23_count_people_by_department_stupen_trida(bucket_name, file_name, sho
     #department_df = df[df['department'] == department]
 
     # Group by 'stupen' and 'trida' and calculate the count
-    count_result = df.groupby(['department', 'stupen', 'trida']).size().reset_index(name='count')
+    count_result = df.groupby(['department', 'job', 'stupen', 'trida']).size().reset_index(name='count')
 
     # Create the pivot table to rearrange the 'trida' values as columns
-    pivot_table = count_result.pivot_table(index=['department', 'stupen'], columns='trida', values='count', aggfunc='sum', fill_value=0)
+    pivot_table = count_result.pivot_table(index=['department','job', 'stupen'], columns='trida', values='count', aggfunc='sum', fill_value=0)
 
     # Reset the index to convert the 'stupen' back to a regular column
     pivot_table = pivot_table.reset_index()
