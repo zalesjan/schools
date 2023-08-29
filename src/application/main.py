@@ -8,7 +8,6 @@ from modules.validate_code import split_names, old_validate_code
 #from modules.timetable_buttons import display_timetable, format_activity_option
 
 def main():
-    department = 'operation'
     bucket_name = "schoolworkhours"
     sent_code = None
     entered_code = None
@@ -82,7 +81,7 @@ def main():
             else:
                 # Perform query for specific froms 
                 if st.button("Vypocitej P1c01_23"):
-                    P1c01_23_count_people_by_department_stupen_trida(bucket_name, file_name, department, show_result=True)
+                    P1c01_23_count_people_by_department_stupen_trida(bucket_name, file_name, show_result=True)
 
                 # Let director query all employees
                 if st.button("Hledat cloveka. / Find employee."):
