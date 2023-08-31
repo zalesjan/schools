@@ -34,10 +34,15 @@ def old_validate_code(sent_code, entered_code):
     
 
 def split_names(name_and_surname):
-    # Split the code into components
-    name_components = name_and_surname.split("_")
+    # Split the name_and_surname into components using space
+    name_components = name_and_surname.split()
 
-    # Extract the code components
-    looked_name, looked_first_name = name_components
+    # Ensure there are at least two components (first name and last name)
+    if len(name_components) >= 2:
+        looked_first_name = name_components[0]
+        looked_name = ' '.join(name_components[1:])
+    else:
+        looked_first_name = ""
+        looked_name = ""
 
     return looked_name, looked_first_name
