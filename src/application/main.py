@@ -39,11 +39,12 @@ def main():
         query_result = query_file(bucket_name, file_name, name, first_name)
         
         # Prompt for 'employees' personal information
-        name_and_surname = st.text_input("Jméno a příjmení hledané osoby: / Name and surname of looked person:")
-        looked_name, looked_first_name = split_names(name_and_surname)
-        employee_query_result = query_someone(bucket_name, file_name, looked_name, looked_first_name, show_result=False)
-        prima = employee_query_result["direct hours"].values[0]
-        celkem_hodin = employee_query_result["hours"].values[0]
+        name_and_surname = st.text_input("Hledáš někoho? Zadej jeho jméno a příjmení: / Name_surname of looked person:")
+        if name_and_surname:
+            looked_name, looked_first_name = split_names(name_and_surname)
+            employee_query_result = query_someone(bucket_name, file_name, looked_name, looked_first_name, show_result=False)
+            prima = employee_query_result["direct hours"].values[0]
+            celkem_hodin = employee_query_result["hours"].values[0]
         
         # Extract the email adress and job from the query result
         if not query_result.empty:
@@ -111,7 +112,7 @@ def main():
                 if not old_validate_code (sent_code, entered_code):
                     st.warning("Code not valid or inserted yet.")
         else:
-            st.warning("Invalid code. Please try again.")
+            st.warning("Zadej platný ověřovací kód.")
 
 if __name__ == '__main__':
     main()
