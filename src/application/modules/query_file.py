@@ -58,7 +58,7 @@ def display_timetable(available_counts):
 
     # Define days of the week and slots in Czech
     days_of_week = ['Pondělí / Monday', 'Úterý / Tuesday', 'Středa / Wednesday', 'Čtvrtek / Thursday', 'Pátek / Friday']
-    time_slots = ['7:00','8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00','16:00', '17:00']
+    time_slots = ['7:00','8:00', '8:55', '10:00', '10:55', '12:45', '14:00', '14:50', '15:40','16:30', '17:20']
 
     # Define the updated activities list
     activities_list = ['Nic', 'Učím', 'Nepřímá', 'Doma', 'Dozor', 'Oběd']
