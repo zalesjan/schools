@@ -106,8 +106,9 @@ def display_timetable(available_counts, selected_times):
     if count > available_counts.get(activity, 0):
         st.warning(f"Cannot select {activity}. Maximum count reached.")
 
-def select_indirect_activity(available_counts, selected_times)
 
+
+def select_indirect_activity(available_counts, selected_times)
 
     # Initialize an empty list to store activities
     #indirect_activities_list = ['Nepřímá', 'Doma', 'Dozor', 'Oběd']
