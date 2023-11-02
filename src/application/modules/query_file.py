@@ -118,7 +118,7 @@ def select_indirect_activity(available_counts, selected_times)
 
     # Loop through each day of the week
     for day in days_of_week:
-        add_time_range(day)
+        add_time_range(day, selected_times)
 
     # Display the selected time ranges
     st.write("Selected Time Ranges:")
@@ -127,11 +127,11 @@ def select_indirect_activity(available_counts, selected_times)
     #Add a button to dynamically add more time ranges
     if st.button("Add Time Range"):
         new_day = st.selectbox("Select Day for the new time range:", days_of_week)
-        add_time_range(new_day)
+        add_time_range(new_day, selected_times)
 
     
 # Define a function to add time range for a day
-def add_time_range(day):
+def add_time_range(day, selected_times):
     st.write(f"### {day}")
     st.write(f"Select start and end times for {day}:")
     
