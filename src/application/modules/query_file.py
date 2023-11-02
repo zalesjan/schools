@@ -107,14 +107,10 @@ def display_timetable(available_counts):
         st.warning(f"Cannot select {activity}. Maximum count reached.")
 
 def select_indirect_activity(available_counts, selected_times)
-    
+
 
     # Initialize an empty list to store activities
-    indirect_activities_list = ['Nepřímá', 'Doma', 'Dozor', 'Oběd']
-
-    # Define the days of the week
-    days_of_week = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
-    # Unused days 'Pondělí / Monday', 'Úterý / Tuesday', 'Středa / Wednesday', 'Čtvrtek / Thursday', 'Pátek / Friday'
+    #indirect_activities_list = ['Nepřímá', 'Doma', 'Dozor', 'Oběd']
 
     # Loop through each day of the week
     for day in days_of_week:
