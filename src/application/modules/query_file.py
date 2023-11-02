@@ -57,17 +57,20 @@ def show_certain_columns(bucket_name, file_name, name, first_name, show_result=F
 def display_timetable(available_counts):
 
     # Define days of the week and slots in Czech
-    days_of_week = ['Pondělí / Monday', 'Úterý / Tuesday', 'Středa / Wednesday', 'Čtvrtek / Thursday', 'Pátek / Friday']
-    time_slots = ['7:00','8:00', '8:55', '10:00', '10:55', '12:45', '14:00', '14:50', '15:40','16:30', '17:20']
+    days_of_week = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
+    # 'Pondělí / Monday', 'Úterý / Tuesday', 'Středa / Wednesday', 'Čtvrtek / Thursday', 'Pátek / Friday']
+    time_slots = ['7:00','8:00', '8:55', '10:00', '10:55', '11:50', '12:45', '14:00', '14:50', '15:40']
+    # '16:30', '17:20'
 
     # Define the updated activities list
-    activities_list = ['Nic', 'Učím', 'Nepřímá', 'Doma', 'Dozor', 'Oběd']
+    direct_activities_list = ['Neučím', 'Učím']
+    # Unused activities are , 'Nepřímá', 'Doma', 'Dozor', 'Oběd'
 
     # Create an empty data frame to represent the time table
     time_table_data = pd.DataFrame(index=days_of_week, columns=time_slots)
 
     # Create a dictionary to store activity counts
-    activity_counts = {activity: 0 for activity in activities_list}
+    activity_counts = {activity: 0 for activity in direct_activities_list}
 
     # Display the time table using Streamlit st.title(f"Rozvrh {looked_first_name} {looked_name} ")
     st.title(f"Zvol pro každý den a hodinu svou přímou (=učíš), nebo nepřímou pracovní dobu nebo praci z domu.\n Zvol taky, kdy máš oběd a kdy dozor.")
@@ -83,7 +86,7 @@ def display_timetable(available_counts):
         st.write(f"### {day}")
         cols = st.columns(len(time_slots))
         for time_slot in time_slots:
-            activity = cols[0].radio(time_slot, activities_list, key=f"{day}_{time_slot}")
+            activity = cols[0].radio(time_slot, direct_activities_list, key=f"{day}_{time_slot}")
             time_table_data.loc[day, time_slot] = activity
             activity_counts[activity] += 1
             cols = cols[1:] + cols[:1]  # Shift columns to create a horizontal layout
@@ -102,3 +105,42 @@ def display_timetable(available_counts):
 
     if count > available_counts.get(activity, 0):
         st.warning(f"Cannot select {activity}. Maximum count reached.")
+
+def select_indirect_activity(available_counts, selected_times)
+    
+
+    # Initialize an empty list to store activities
+    indirect_activities_list = ['Nepřímá', 'Doma', 'Dozor', 'Oběd']
+
+    # Define the days of the week
+    days_of_week = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
+    # Unused days 'Pondělí / Monday', 'Úterý / Tuesday', 'Středa / Wednesday', 'Čtvrtek / Thursday', 'Pátek / Friday'
+
+    # Loop through each day of the week
+    for day in days_of_week:
+        add_time_range(day)
+
+    # Display the selected time ranges
+    st.write("Selected Time Ranges:")
+    st.write(selected_times)
+
+    #Add a button to dynamically add more time ranges
+    if st.button("Add Time Range"):
+        new_day = st.selectbox("Select Day for the new time range:", days_of_week)
+        add_time_range(new_day)
+
+    
+# Define a function to add time range for a day
+def add_time_range(day):
+    st.write(f"### {day}")
+    st.write(f"Select start and end times for {day}:")
+    
+    start_hour = st.slider(f"Start Hour for {day}", min_value=0, max_value=23, step=1, value=8)
+    start_minute = st.slider(f"Start Minute for {day}", min_value=0, max_value=59, step=1, value=0)
+    end_hour = st.slider(f"End Hour for {day}", min_value=0, max_value=23, step=1, value=10)
+    end_minute = st.slider(f"End Minute for {day}", min_value=0, max_value=59, step=1, value=0)
+    
+    selected_times[day] = {
+        "Start Time": f"{start_hour:02}:{start_minute:02}",
+        "End Time": f"{end_hour:02}:{end_minute:02}"
+    }

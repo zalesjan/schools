@@ -4,7 +4,6 @@ import streamlit as st
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import pandas as pd
-import pandas as pd
 from io import StringIO
 
 def send_confirmation_email(email, code):
@@ -38,6 +37,7 @@ def send_confirmation_email(email, code):
 def send_instructions_email(bucket_name, file_name):
     # Read CSV data
     df = pd.read_csv(f"s3://{bucket_name}/{file_name}")
+    neprima = celkem_hodin - prima
     
     # Iterate through employee data
     for _, row in df.iterrows():
@@ -56,7 +56,7 @@ def send_instructions_email(bucket_name, file_name):
         smtp_password = st.secrets["smtp_password"]
 
         # Compose the email message
-        subject = "TEST Informační Email"
+        subject = "Informační Email"
         body = f"Vážený zaměstnanče,\n\n Zde jsou důležité informace k vašemu úvazku. \n\n"
         # Add relevant details from the row
         body += f"Jméno: {employee_firstname}\n"
@@ -65,7 +65,7 @@ def send_instructions_email(bucket_name, file_name):
         body += f"Sekce/oddělení: {dept}\n"
         body += f"Úvazek celkem: {celkem_hodin}\n"
         body += f"Přímá ped. činnost: {prima}\n"
-        body += f"Nepřímá: {celkem_hodin} - {prima}\n\n"
+        body += f"Nepřímá: {neprima}\n\n"
         body += f"Evidenci pracovní doby vyplňte za použití nástroje na tomto odkazu, prosím:\n\n https://schools-evydcdn7dfd3z483bpeekb.streamlit.app/ \n\n"
 
         # Construct email message
@@ -88,10 +88,6 @@ def clean_content(content):
     # Remove linefeed and carriage return characters
     return content.replace('\n', '').replace('\r', '')
 
-import smtplib
-from email.message import EmailMessage
-import pandas as pd
-import streamlit as st
 
 def send_report_email(email, employee_name, time_table_data, activity_counts):
 

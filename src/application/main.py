@@ -9,7 +9,7 @@ from modules.validate_code import split_names, old_validate_code
 
 def main():
     bucket_name = "schoolworkhours"
-    query_result = None
+    query_result = None 
     st.title("PAM")
     st.write("Prosím zadejte jméno školy a město/Please enter the school name and city.")
 
