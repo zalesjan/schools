@@ -1,5 +1,6 @@
 import streamlit as st
-from modules.query_file import display_timetable, add_time_range
+from modules.query_file import display_timetable, 
+#add_time_range
 
 def main():
     days_of_week = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
@@ -18,16 +19,16 @@ def main():
     display_timetable(available_counts, selected_times)
 
     # Loop through each day of the week
-    for day in days_of_week:
-        add_time_range(day, selected_times)
+    #for day in days_of_week:
+        #add_time_range(day, selected_times)
 
     # Display the selected time ranges
-    st.write("Selected Time Ranges:")
-    st.write(selected_times)
+    #st.write("Selected Time Ranges:")
+    #st.write(selected_times)
 
     #Add a button to dynamically add more time ranges
-    if st.button("Add Time Range"):
-        new_day = st.selectbox("Select Day for the new time range:", days_of_week)    
+    #if st.button("Add Time Range"):
+    #    new_day = st.selectbox("Select Day for the new time range:", days_of_week)    
   
 
 if __name__ == '__main__':
