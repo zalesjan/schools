@@ -1,12 +1,12 @@
 import streamlit as st
-from modules.query_file import display_timetable
+from modules.timetable_modules import display_timetable
 
 def main():
     st.title("Rozvrh zaměstnance ZŠ Masarova")
     st.write("Rozvrh slouží k evidenci pracovní doby zaměstnanců")
     
      # Define days of the week and slots in Czech
-    days_of_week = ['Pondělí', 'Úterý', 'Středa / ', 'Čtvrtek / ', 'Pátek / ']
+    days_of_week = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
 
     looked_first_name = "ZŠ Masarova"
     looked_name = "zaměstnance"
