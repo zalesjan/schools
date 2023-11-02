@@ -1,5 +1,5 @@
 import streamlit as st
-from modules.query_file import display_timetable, 
+from modules.query_file import display_timetable
 #add_time_range
 
 def main():
