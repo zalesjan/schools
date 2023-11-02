@@ -54,7 +54,7 @@ def show_certain_columns(bucket_name, file_name, name, first_name, show_result=F
     # Return the query result
     return query_result
 
-def display_timetable(available_counts):
+def display_timetable(available_counts, selected_times):
 
     # Define days of the week and slots in Czech
     days_of_week = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
