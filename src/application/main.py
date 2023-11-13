@@ -1,7 +1,7 @@
 import streamlit as st
 #import subprocess
 from modules.file_operations_S3 import check_file_exists, upload_file
-from modules.query_file import query_file, query_someone, display_timetable
+from modules.query_file import query_file, query_someone #display_timetable
 from modules.query_form_P1c1_2023 import P1c01_23_count_people_by_department_stupen_trida
 from modules.send_email import send_confirmation_email, send_instructions_email
 from modules.validate_code import split_names, old_validate_code
