@@ -1,10 +1,10 @@
 import streamlit as st
-from modules.timetable_modules import display_timetable, add_time_range, cols_add_time_range
+from modules.timetable_modules import display_timetable
 
 def main():
 
     # Define a dictionary to store the selected times for each day
-    selected_times = {}
+    #selected_times = {}
     
     st.title("Rozvrh zaměstnance ZŠ Masarova")
     st.write("Rozvrh slouží k evidenci pracovní doby zaměstnanců")

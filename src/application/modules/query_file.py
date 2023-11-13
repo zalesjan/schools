@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-from modules.send_email import send_report_email
 
 def query_file(bucket_name, file_name, name, first_name, show_result=False):
     # Query the file
