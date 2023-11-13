@@ -30,6 +30,18 @@ def main():
     #if st.button("Add Time Range"):
     #    new_day = st.selectbox("Select Day for the new time range:", days_of_week)    
   
+    display_timetable(available_counts, days_of_week)
+    
+    #new_day = st.selectbox("Select Day for the new time range:", days_of_week)
 
+    #for day in days_of_week:
+    #    selected_times = cols_add_time_range(day, selected_times)
+
+    #st.write(f"You previously selected doba od:   do  selected_times {selected_times}")
+
+    # Display the selected time ranges
+    #st.write("Selected Time Ranges:")
+    #st.write(selected_times)
+  
 if __name__ == '__main__':
     main()
