@@ -8,11 +8,11 @@ def display_timetable(available_counts, days_of_week):
     # Define days of the week and slots in Czech
     #days_of_week = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
     #unused [Monday, Tuesday, Wednesday, Thursday, Friday], ['Pondělí / Monday', 'Úterý / Tuesday', 'Středa / Wednesday', 'Čtvrtek / Thursday', 'Pátek / Friday']
-    time_slots = ['7:00','8:00', '8:55', '10:00', '10:55', '12:45', '14:00', '14:50', '15:40','16:30', '17:20']
+    time_slots = ['7:00','8:00', '8:55', '10:00', '10:55', '11:50', '12:45', '14:00', '14:50', '15:40','16:30']
 
     # Define the updated activities list
-    activities_list = ['Nic', 'Učím']
-                       #, 'Nepřímá', 'Doma', 'Dozor', 'Oběd']
+    activities_list = ['Nic', 'Učím', 'Nepřímá', 'Doma']
+                       # 'Dozor', 'Oběd']
 
     # Create an empty data frame to represent the time table
     time_table_data = pd.DataFrame(index=days_of_week, columns=time_slots)
@@ -21,7 +21,8 @@ def display_timetable(available_counts, days_of_week):
     activity_counts = {activity: 0 for activity in activities_list}
 
     # Display the time table using Streamlit st.title(f"Rozvrh {looked_first_name} {looked_name} ")
-    st.title(f"Zvol pro každý den a hodinu svou přímou (=učíš), nebo nepřímou pracovní dobu nebo praci z domu.\n Zvol taky, kdy máš oběd a kdy dozor.")
+    st.title(f"Zvol pro každý den a hodinu svou přímou (=učíš), nebo nepřímou pracovní dobu nebo praci z domu.")
+    #\n Zvol taky, kdy máš oběd a kdy dozor.")
 
     # Info for users
     st.title(f"POZOR: KONTROLUJ SOUČTY DOLE\n MUSÍ ODPOVÍDAT TOMU, KOLIK MÁŠ PŘÍMÉ NEBO NEPŘÍMÉ PRACOVNÍ DOBY")
