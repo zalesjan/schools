@@ -53,7 +53,7 @@ def display_timetable(available_counts, days_of_week):
         send_report_email(st.secrets["ekonomka_email"], employee_name, time_table_data, activity_counts)
 
     if count > available_counts.get(activity, 0):
-        st.warning(f"Cannot select {activity}. Maximum count reached.")
+        st.warning(f"Vybrali jste vyšší než max. množství {activity}.")
 
 
 def add_time_range(day, selected_times):

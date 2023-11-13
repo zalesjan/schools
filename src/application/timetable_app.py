@@ -11,7 +11,7 @@ def main():
     
     #looked_first_name = "ZŠ Masarova"
     #looked_name = "zaměstnance"
-    available_counts = {"Učím": 10, "Nepřímá": 8, "Z domu": 20, "Dozor": 20, "Oběd": 20}
+    available_counts = {"Učím": 22, "Nepřímá": 18, "Z domu": 18, "Dozor": 20, "Oběd": 20}
 
     # Define a dictionary to store the selected times for each day
     #selected_times = {}
