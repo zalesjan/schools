@@ -14,10 +14,8 @@ def main():
     available_counts = {"Učím": 10, "Nepřímá": 8, "Z domu": 20, "Dozor": 20, "Oběd": 20}
 
     # Define a dictionary to store the selected times for each day
-    selected_times = {}
+    #selected_times = {}
     
-    display_timetable(available_counts, selected_times)
-
     # Loop through each day of the week
     #for day in days_of_week:
         #add_time_range(day, selected_times)
