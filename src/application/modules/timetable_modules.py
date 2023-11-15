@@ -3,7 +3,7 @@ import streamlit as st
 from modules.send_email import send_report_email
 
 
-def display_timetable(available_counts, days_of_week):
+def display_timetable(days_of_week):
 
     # Define days of the week and slots in Czech
     #days_of_week = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
@@ -11,11 +11,21 @@ def display_timetable(available_counts, days_of_week):
     time_slots = ['7:00','8:00', '8:55', '10:00', '10:55', '11:50', '12:45', '14:00', '14:50', '15:40','16:30']
 
     # Define the updated activities list
-    activities_list = ['Nic', 'Učím', 'Nepřímá', 'Doma']
+    activities_list = ['   ', 'Učím', 'Nepřímá', 'Doma']
                        # 'Dozor', 'Oběd']
 
     # Create an empty data frame to represent the time table
     time_table_data = pd.DataFrame(index=days_of_week, columns=time_slots)
+
+     #Employee inputs their name
+    employee_name = st.text_input("Sem zadej své příjmení:")
+
+    available_counts = {}
+    for activity in activities_list:
+        if activity == 'Učím':
+            available_counts[activity] = st.number_input(f"Zadej počet hodin pro {activity}:", min_value=0, value=2)
+        if activity == 'Nepřímá':
+            available_counts[activity] = st.number_input(f"Zadej počet hodin pro {activity}:", min_value=0, value=3)
 
     # Create a dictionary to store activity counts
     activity_counts = {activity: 0 for activity in activities_list}
@@ -26,9 +36,6 @@ def display_timetable(available_counts, days_of_week):
 
     # Info for users
     st.title(f"POZOR: KONTROLUJ SOUČTY DOLE\n MUSÍ ODPOVÍDAT TOMU, KOLIK MÁŠ PŘÍMÉ NEBO NEPŘÍMÉ PRACOVNÍ DOBY")
-    
-    #Employee inputs their name
-    employee_name = st.text_input("Sem zadej své příjmení:")
 
     # Create a grid to display the time table
     for day in days_of_week:
@@ -47,13 +54,22 @@ def display_timetable(available_counts, days_of_week):
     # Display the activity counts
     st.write("Počet aktivit")
     for activity, count in activity_counts.items():
-        st.write(f"{activity}: {count}")
+        if activity == "Učím":
+            st.write(f"Nyní máte v kategorii {activity} vybráno {count} ze {available_counts[activity]} dostupných")
+            if count > available_counts.get(activity, 0):
+                st.warning(f"POZOR!! Vybrali jste vyšší než max. množství {activity}.")
+        elif activity == "Doma":
+            st.write(f"Nyní máte v kategorii {activity} vybráno {count} hodin")
+        elif activity == "Nepřímá":
+            st.write(f"Nyní máte v kategorii {activity} vybráno {count} hodin")
+            if count > available_counts.get(activity, 0):
+                st.warning(f"POZOR!! Vybrali jste vyšší než max. množství {activity}.")
+
+            st.write(f"Celkově máte mít {available_counts.get('Nepřímá', 0)} hodin nepřímé činnosti (doma i na pracovišti dohromady)")
 
     if st.button("KLIKNI SEM PRO ULOŽENÍ ROZVRHU A JEHO ODESLÁNÍ EKONOMCE"): 
         send_report_email(st.secrets["ekonomka_email"], employee_name, time_table_data, activity_counts)
 
-    if count > available_counts.get(activity, 0):
-        st.warning(f"Vybrali jste vyšší než max. množství {activity}.")
 
 
 def add_time_range(day, selected_times):

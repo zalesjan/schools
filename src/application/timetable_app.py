@@ -11,7 +11,9 @@ def main():
     
     #looked_first_name = "ZŠ Masarova"
     #looked_name = "zaměstnance"
-    available_counts = {"Učím": 22, "Nepřímá": 18, "Z domu": 18, "Dozor": 20, "Oběd": 20}
+    #available_counts = {"Učím": 22, "Nepřímá": 18, "Z domu": 18, "Dozor": 20, "Oběd": 20}
+  
+
 
     # Define a dictionary to store the selected times for each day
     #selected_times = {}
@@ -28,7 +30,7 @@ def main():
     #if st.button("Add Time Range"):
     #    new_day = st.selectbox("Select Day for the new time range:", days_of_week)    
   
-    display_timetable(available_counts, days_of_week)
+    display_timetable(days_of_week)
     
     #new_day = st.selectbox("Select Day for the new time range:", days_of_week)
 
