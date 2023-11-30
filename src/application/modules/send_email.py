@@ -37,7 +37,7 @@ def send_confirmation_email(email, code):
 def send_instructions_email(bucket_name, file_name):
     # Read CSV data
     df = pd.read_csv(f"s3://{bucket_name}/{file_name}")
-    neprima = celkem_hodin - prima
+    
     
     # Iterate through employee data
     for _, row in df.iterrows():
@@ -48,6 +48,7 @@ def send_instructions_email(bucket_name, file_name):
         celkem_hodin = row["hours"]
         job = row["job"]
         dept = row["department"]
+        neprima = celkem_hodin - prima
 
         # Email configuration
         smtp_server = "smtp.gmail.com"
@@ -89,7 +90,7 @@ def clean_content(content):
     return content.replace('\n', '').replace('\r', '')
 
 
-def send_report_email(email, employee_name, time_table_data, activity_counts):
+def send_report_email(employee_email, employee_name, time_table_data, activity_counts):
 
     # Convert the employee data row into a CSV file
     csv_filename = f"{employee_name}_timetable.csv"
@@ -104,8 +105,8 @@ def send_report_email(email, employee_name, time_table_data, activity_counts):
     for activity, count in activity_counts.items():
         body += f"{activity}: {count}\n"
 
-    sender_email = st.secrets["ekonomka_email"]
-    recipient_email = email
+    sender_email = st.secrets["sender_email"]
+    recipient_email = employee_email
 
     msg = EmailMessage()
     msg["Subject"] = subject
@@ -120,7 +121,7 @@ def send_report_email(email, employee_name, time_table_data, activity_counts):
     # Set up the SMTP connection
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
-    smtp_username = st.secrets["ekonomka_email"]
+    smtp_username = st.secrets["sender_email"]
     smtp_password = st.secrets["smtp_password"]
 
     with smtplib.SMTP(smtp_server, smtp_port) as server:
@@ -130,7 +131,7 @@ def send_report_email(email, employee_name, time_table_data, activity_counts):
         # Send the email
         server.send_message(msg)
 
-    st.warning(f"Evidence prac. doby zaměstnance {employee_name} odeslána na {recipient_email}.\n Pokud se ti ekonomka neozve zpátky, asi je vše ok:)")
+    st.warning(f"Evidence prac. doby zaměstnance {employee_name} odeslána na: \n {sender_email} a {employee_email}.\n Pokud se ti ekonomka neozve zpátky, asi je vše ok:)")
 
 
 

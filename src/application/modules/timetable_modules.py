@@ -17,15 +17,17 @@ def display_timetable(days_of_week):
     # Create an empty data frame to represent the time table
     time_table_data = pd.DataFrame(index=days_of_week, columns=time_slots)
 
-     #Employee inputs their name
+    #Employee inputs their name and email
     employee_name = st.text_input("Sem zadej své příjmení:")
+    employee_email = st.text_input("Sem zadej svůj email:")
+
 
     available_counts = {}
     for activity in activities_list:
         if activity == 'Učím':
-            available_counts[activity] = st.number_input(f"Zadej počet hodin pro {activity}:", min_value=0, value=2)
+            available_counts[activity] = st.number_input(f"Zadej počet hodin pro {activity}:", min_value=0, value=22)
         if activity == 'Nepřímá':
-            available_counts[activity] = st.number_input(f"Zadej počet hodin pro {activity}:", min_value=0, value=3)
+            available_counts[activity] = st.number_input(f"Zadej počet hodin pro {activity}:", min_value=0, value=18)
 
     # Create a dictionary to store activity counts
     activity_counts = {activity: 0 for activity in activities_list}
@@ -62,13 +64,20 @@ def display_timetable(days_of_week):
             st.write(f"Nyní máte v kategorii {activity} vybráno {count} hodin")
         elif activity == "Nepřímá":
             st.write(f"Nyní máte v kategorii {activity} vybráno {count} hodin")
-            if count > available_counts.get(activity, 0):
-                st.warning(f"POZOR!! Vybrali jste vyšší než max. množství {activity}.")
-
-            st.write(f"Celkově máte mít {available_counts.get('Nepřímá', 0)} hodin nepřímé činnosti (doma i na pracovišti dohromady)")
+            
+            # Calculate the total count for "Nepřímá" and "Doma"
+            total_neprima = count + activity_counts.get("Doma", 0)
+            
+            # Check against the available count for "Nepřímá"
+            if total_neprima > available_counts.get("Nepřímá", 0):
+                st.warning(f"POZOR!! Vybrali jste vyšší než max. množství {activity}. \n Celkově máte vybráno {total_neprima}, maximálně můžete vybrat {available_counts['Nepřímá']} hodin.")
 
     if st.button("KLIKNI SEM PRO ULOŽENÍ ROZVRHU A JEHO ODESLÁNÍ EKONOMCE"): 
-        send_report_email(st.secrets["ekonomka_email"], employee_name, time_table_data, activity_counts)
+        # Check if the name is provided
+        if not employee_name:
+            st.warning("Musíte zadat své jméno.")
+        else:
+            send_report_email(employee_email, employee_name, time_table_data, activity_counts)
 
 
 
