@@ -63,7 +63,7 @@ def send_instructions_email(bucket_name, file_name):
         body += f"Jméno: {employee_firstname}\n"
         body += f"Příjmení: {employee_name}\n"
         body += f"Pozice: {job}\n"
-        body += f"Nadpočetné hodiny: {nadpocetne_hodiny}\n"
+        body += f"Nadpočetné hodiny: {dept}\n"
         body += f"Úvazek celkem: {celkem_hodin}\n"
         body += f"Přímá ped. činnost: {prima}\n"
         body += f"Nepřímá: {neprima}\n\n"
@@ -90,8 +90,11 @@ def clean_content(content):
     return content.replace('\n', '').replace('\r', '')
 
 
-def send_report_email(employee_email, employee_name, time_table_data, activity_counts):
+from email.message import EmailMessage
+import smtplib
+import streamlit as st
 
+def send_report_email(recipients, employee_name, time_table_data, activity_counts):
     # Convert the employee data row into a CSV file
     csv_filename = f"{employee_name}_timetable.csv"
     time_table_data.to_csv(csv_filename, index=False)
@@ -106,12 +109,12 @@ def send_report_email(employee_email, employee_name, time_table_data, activity_c
         body += f"{activity}: {count}\n"
 
     sender_email = st.secrets["sender_email"]
-    recipient_email = employee_email
+
 
     msg = EmailMessage()
     msg["Subject"] = subject
     msg["From"] = sender_email
-    msg["To"] = recipient_email
+    msg["To"] = recipients  # Pass the list of recipient emails
     msg.set_content(body)
 
     # Attach the CSV file
@@ -131,7 +134,8 @@ def send_report_email(employee_email, employee_name, time_table_data, activity_c
         # Send the email
         server.send_message(msg)
 
-    st.warning(f"Evidence prac. doby zaměstnance {employee_name} odeslána na: \n {sender_email} a {employee_email}.\n Pokud se ti ekonomka neozve zpátky, asi je vše ok:)")
+    st.warning(f"Evidence prac. doby zaměstnance {employee_name} odeslána na: \n {', '.join(recipients)}.\n Pokud se ti ekonomka neozve zpátky, asi je vše ok:)")
+
 
 
 

@@ -14,12 +14,16 @@ def display_timetable(days_of_week):
     activities_list = ['   ', 'Učím', 'Nepřímá', 'Doma']
                        # 'Dozor', 'Oběd']
 
+
     # Create an empty data frame to represent the time table
     time_table_data = pd.DataFrame(index=days_of_week, columns=time_slots)
 
     #Employee inputs their name and email
     employee_name = st.text_input("Sem zadej své příjmení:")
     employee_email = st.text_input("Sem zadej svůj email:")
+    ekonomka_email =  st.secrets["ekonomka_email"]
+
+    recipients = [employee_email, ekonomka_email]
 
 
     available_counts = {}
@@ -77,7 +81,7 @@ def display_timetable(days_of_week):
         if not employee_name:
             st.warning("Musíte zadat své jméno.")
         else:
-            send_report_email(employee_email, employee_name, time_table_data, activity_counts)
+            send_report_email(recipients, employee_name, time_table_data, activity_counts)
 
 
 
