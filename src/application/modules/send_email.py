@@ -47,7 +47,7 @@ def send_instructions_email(bucket_name, file_name):
         prima = row["direct hours"]
         celkem_hodin = row["hours"]
         job = row["job"]
-        dept = row["department"]
+        nadpocetne_hodiny = row["Nadp_hod"]
         neprima = celkem_hodin - prima
 
         # Email configuration
@@ -63,7 +63,7 @@ def send_instructions_email(bucket_name, file_name):
         body += f"Jméno: {employee_firstname}\n"
         body += f"Příjmení: {employee_name}\n"
         body += f"Pozice: {job}\n"
-        body += f"Sekce/oddělení: {dept}\n"
+        body += f"Nadpočetné hodiny: {nadpocetne_hodiny}\n"
         body += f"Úvazek celkem: {celkem_hodin}\n"
         body += f"Přímá ped. činnost: {prima}\n"
         body += f"Nepřímá: {neprima}\n\n"
